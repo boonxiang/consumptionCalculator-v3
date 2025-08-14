@@ -1,0 +1,650 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #142850;
+    /* Updated body background color */
+    color: #142850;
+    /* Updated body text color */
+}
+
+/* --- Header Styles --- */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #f9f7f5;
+    color: #142850;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 30;
+}
+
+.header .logo-and-title {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo {
+    width: 2.5rem;
+    /* 40px */
+    height: 2.5rem;
+    /* 40px */
+}
+
+.header h1 {
+    margin-left: 1rem;
+    font-weight: 800;
+    /* extabold */
+    font-size: 1.25rem;
+    /* xl */
+    line-height: 1.75rem;
+    /* xl */
+}
+
+.hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #142850;
+    font-size: 1.5rem;
+    /* 24px */
+    padding: 0.5rem;
+}
+
+.placeholder-content {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.placeholder-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.placeholder-content p {
+    margin-top: 0.5rem;
+    color: #4a5568;
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* --- Sidebar Styles --- */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 16rem;
+    /* 256px */
+    background-color: #f9f7f5;
+    color: #142850;
+    padding: 2rem;
+    box-shadow: -4px 0 6px -1px rgba(0, 0, 0, 0.1), -2px 0 4px -1px rgba(0, 0, 0, 0.06);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.open {
+    transform: translateX(0);
+}
+
+.sidebar-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #142850;
+    font-size: 1.5rem;
+    align-self: flex-end;
+    margin-bottom: 2rem;
+}
+
+.sidebar .logo {
+    width: 6rem;
+    /* 96px */
+    height: auto;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+.sidebar a {
+    color: #C3C3C3;
+    font-size: 1.125rem;
+    /* lg */
+    font-weight: 500;
+    /* medium */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.sidebar a:hover {
+    color: #FF7505;
+}
+
+/* --- Overlay Styles --- */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 20;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.overlay.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.container_tech {
+    max-width: fit-content;
+    margin: 0 auto;
+    background-color: #FFF8E7;
+    /* New light background for containers */
+    padding: 25px;
+    scroll-margin-top: 160px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #FFF8E7;
+    /* New light background for containers */
+    padding: 25px;
+    border-radius: 8px;
+    scroll-margin-top: 170px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h1,
+h2 {
+    color: #142850;
+    /* Updated heading color */
+    text-align: center;
+}
+
+.input-section,
+.output-section {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input[type="number"],
+select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.result-table th,
+.result-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.result-table th {
+    background-color: #C3C3C3;
+    /* Updated table header background */
+    font-weight: bold;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.show-section {
+    display: block;
+    align-items: center;
+    gap: 40px;
+    margin: 40px auto;
+    max-width: 1000px;
+    padding: 30px;
+    background-color: #F4C769;
+    /* Updated section background color */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flex-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 40px;
+    margin: 40px auto;
+    max-width: 1000px;
+    padding: 30px;
+    background-color: #F4C769;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flex-section .image-section {
+    flex: 1;
+    max-width: 50%;
+
+}
+
+.flex-section .image-section img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.flex-section .text-section {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 30px;
+    /* adjust this to match your target position */
+}
+
+.flex-section .text-section h2 {
+    margin-top: 0;
+    color: #142850;
+    /* Updated heading color */
+    font-size: 1.8em;
+}
+
+.flex-section .text-section p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.section-divider {
+    margin: 50px auto;
+    border: none;
+    border-top: 2px solid #868686;
+    /* New divider color */
+    width: 80%;
+}
+
+#monthlyYieldCalculator {
+    background-color: #FFF8E7;
+    /* New background for calculator */
+    border: 2px solid #F89B1C;
+    /* New border color */
+    border-radius: 8px;
+    padding: 25px;
+    margin: 30px auto;
+    max-width: 500px;
+    scroll-margin-top: 190px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#monthlyYieldCalculator label {
+    color: #142850;
+    /* New label color */
+    font-weight: bold;
+}
+
+#monthlyYieldCalculator input[type="number"],
+#monthlyYieldCalculator select {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #FF9100;
+    /* New input border color */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#monthlyYieldCalculator button {
+    background-color: #C58E58;
+    /* New button color */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#monthlyYieldCalculator button:hover {
+    background-color: #7D4A28;
+    /* New button hover color */
+}
+
+#monthlyYieldCalculator .error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#monthlyYieldCalculator .output-section {
+    margin-top: 20px;
+    background: #F4C769;
+    /* New output section background */
+    border-radius: 4px;
+    padding: 15px;
+    font-size: 1.1em;
+}
+
+/* Style all images inside the TnbBillImage container */
+.TnbBillImage img {
+    width: fit-content;
+    /* Set a fixed width for all images */
+    height: fit-content;
+    /* Maintain aspect ratio */
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 20px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Example: Style only the first image differently */
+.TnbBillImage img:first-child {
+    width: fit-content;
+    border: 2px solid #F1C232;
+    /* New border color */
+}
+
+#tnbBillRead p {
+    text-align: center;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.image-caption-col {
+    font-weight: bold;
+    font-size: medium;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#nemRead img {
+    max-width: 100%;
+    height: auto;
+    /* Ensure aspect ratio is maintained */
+}
+
+.container_tech .image-section img,
+.container_tech .image-caption-col img {
+    max-width: 100%;
+    height: auto;
+    /* Important to prevent stretching */
+    display: block;
+    /* Helps with layout */
+}
+
+#tnbBillRead.container_tech {
+    padding: 10px;
+}
+
+#tnbBillRead img {
+    max-width: 100%;
+}
+
+#backToTopBtn {
+    position: fixed;
+    bottom: 1px;
+    right: 2px;
+    z-index: 9;
+    border: none;
+    outline: none;
+    background-color: #142850;
+    color: #FF7505;
+    cursor: pointer;
+    padding: 15px;
+    display: none;
+    /* Initially hide the button */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+#backToTopBtn:hover {
+    background-color: #FF7505;
+    color: #142850;
+    transform: scale(1.1);
+
+}
+
+/* The sidepanel menu */
+.sidepanel {
+    height: 250px;
+    /* Specify a height */
+    width: 0;
+    /* 0 width - change this with JavaScript */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #111;
+    /* Black*/
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 60px;
+    /* Place content 60px from the top */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in the sidepanel */
+}
+
+/* The sidepanel links */
+.sidepanel a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidepanel a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidepanel .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style the button that is used to open the sidepanel */
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    .header {
+        flex-direction: column;
+        /* Stack logo and text vertically */
+        text-align: center;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .header-text-content {
+        align-items: center;
+        /* Center the text content */
+        text-align: center;
+        padding: 0;
+    }
+
+    .header-nav-links {
+        justify-content: center;
+        /* Center the buttons */
+        gap: 5px;
+    }
+
+    .header-nav-links a {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+
+    .header-text-content h1 {
+        font-size: 1.8em;
+    }
+
+    .logo img {
+        height: 80px;
+    }
+
+    .flex-section {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .flex-section .image-section {
+        max-width: 100%;
+    }
+
+    .flex-section .text-section h2 {
+        font-size: 1.5em;
+    }
+
+    .flex-section .text-section p {
+        font-size: 1em;
+    }
+
+    .image-caption-col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .TnbBillImage img {
+        width: 100%;
+        height: auto;
+    }
+
+    .result-table th,
+    .result-table td {
+        padding: 8px;
+        font-size: 0.9em;
+    }
+}
+
+
+
+
+@media (max-width: 480px) {
+
+    .header h1 {
+        font-size: medium;
+        /* Reduced font size for the h1 in the header */
+    }
+
+    .header {
+        padding: 5px;
+        /* Reduced padding for a smaller header */
+    }
+
+    .header p {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        margin-bottom: 10px;
+    }
+
+    .logo img {
+        height: 50px;
+    }
+
+    .link-area p {
+        font-size: small;
+        padding: 10px;
+    }
+
+    .container,
+    .container_tech,
+    .faq-container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.2em;
+    }
+
+    input[type="number"],
+    select,
+    button {
+        font-size: 14px;
+    }
+
+    .result-table th,
+    .result-table td {
+        padding: 6px;
+        font-size: 0.6em;
+
+    }
+
+
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="Img/tnb read/Company_icon.png">
+    <title>Energy Consumption Comparison Calculator</title>
+    <link rel="stylesheet" href="css/layout.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* Hover zoom effect */
+        .image-section img {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+            height: auto;
+        }
+
+        .image-section img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Fullscreen pop-out */
+        .image-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .image-popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .image-popup-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        .image-popup-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Existing styles from your original code */
+        #EnergyClippingView {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 2.5rem auto;
+            max-width: 80rem;
+            padding: 2rem;
+            background-color: #FFF8E7;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: calc(100% - 2rem);
+        }
+
+        #EnergyClippingView h1,
+        #EnergyClippingView p {
+            text-align: center;
+            width: 100%;
+            color: #142850;
+        }
+
+        #EnergyClippingView p {
+            font-size: 16px;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem;
+            background-color: #F4C769;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            margin-block: 10px
+        }
+
+        .image-section {
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .text-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding-top: 1rem;
+            text-align: left;
+        }
+
+        .text-section p {
+            font-size: 1.125rem;
+            line-height: 1.625;
+            color: #142850;
+        }
+
+        @media (min-width: 768px) {
+            .content-wrapper {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            /* Updated widths for bigger image */
+            .image-section {
+                width: 100%;
+            }
+
+            .text-section {
+                width: 100%;
+                padding-top: 0;
+                text-align: left;
+            }
+
+            .image-section img {
+                max-width: 550px;
+            }
+
+            #checkYield .image-section {
+                width: 100%;
+            }
+
+            #checkYield .text-section {
+                width: 100%;
+            }
+        }
+
+        /* Wider container_tech for desktop */
+        @media (min-width: 1024px) {
+            .container_tech {
+                max-width: 100%;
+            }
+        }
+
+        #checkYield {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+            margin: 2.5rem auto;
+            max-width: 60rem;
+            padding: 2rem;
+            background-color: #FFF8E7;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: calc(100% - 2rem);
+            scroll-margin-top: 160px;
+        }
+
+        #checkYield h2 {
+            text-align: center;
+            width: 100%;
+            color: #142850;
+        }
+
+        .container_tech {
+            max-width: 95%;      /* Take up 90% of parent width */
+            width: 90%;         /* Ensure it can grow */
+            margin: 0 auto;      /* Center it horizontally */
+            background-color: #FFF8E7;
+            padding: 2%;
+            scroll-margin-top: 160px;
+            border-radius: 25px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .flex-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem auto;
+            max-width: 80rem;
+            padding: 1.5rem;
+            background-color: #142850;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: calc(100% - 2rem);
+        }
+
+        .flex-section .image-section {
+            flex: 1;
+            max-width: 100%;
+        }
+
+        .flex-section .text-section {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-top: 3px;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .popup-container {
+            background-color: #FFF8E7;
+            border: 2px solid #F89B1C;
+            border-radius: 8px;
+            padding: 25px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .popup-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-overlay.active .popup-container {
+            transform: scale(1);
+        }
+
+        .popup-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #142850;
+        }
+
+        #EnergyConsumptionCalculator label {
+            color: #142850;
+            font-weight: bold;
+        }
+
+        #EnergyConsumptionCalculator input[type="number"],
+        #EnergyConsumptionCalculator select {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #FF9100;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        #EnergyConsumptionCalculator button {
+            background-color: #C58E58;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        #EnergyConsumptionCalculator button:hover {
+            background-color: #7D4A28;
+        }
+
+        #EnergyConsumptionCalculator .error {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #EnergyConsumptionCalculator .output-section {
+            margin-top: 20px;
+            background: #F4C769;
+            border-radius: 4px;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        #ReadImportExport {
+            scroll-margin-top: 115px; /* adjust how many pixels you want */
+        }
+
+        #EnergyConsumptionCalculator {
+            scroll-margin-top: 115px; /* adjust how many pixels you want */
+        }
+
+        #CalculateConsumption {
+            scroll-margin-top: 115px; /* adjust how many pixels you want */
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- Top header menu -->
+    <header class="header">
+        <button id="openSidebarBtn" class="hamburger-btn">☰</button>
+        <a href="#home" class="logo-and-title">
+            <img src="Img/tnb read/Solana Tec final logos-13.png" alt="Solana Tec Logo" class="logo"
+                onerror="this.onerror=null; this.src='https://placehold.co/40x40/FF7505/142850?text=L';">
+        </a>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="mySidebar" class="sidebar">
+        <button id="closeSidebarBtn" class="sidebar-close-btn">✕</button>
+        <a href="#home" class="logo-and-title">
+            <img src="Img/tnb read/Solana Tec final logos-22.png" alt="Solana Tec Logo" class="logo"
+                onerror="this.onerror=null; this.src='https://placehold.co/128x128/FF7505/142850?text=Logo';">
+        </a>
+        <nav>
+            <a href="#ReadImportExport" onclick="w3_close()">Step 1: Check your latest TNB bill for the Import and Export values</a>
+            <a href="#EnergyConsumptionCalculator" onclick="w3_close()">Step 2: Get your Solar Generation value from your inverter monitoring app</a>
+            <a href="#CalculateConsumption" onclick="w3_close()">Step 3: Calculate the consumption</a>
+        </nav>
+    </aside>
+
+    <div id="myOverlay" class="overlay" onclick="w3_close()"></div>
+
+    <!-- MAIN CONTENT -->
+    <hr class="section-divider">
+    <div class ="container_tech">
+        <h1>Energy Consumption Comparison Calculator</h1>
+        <div class="flex-section">
+            <!-- Step 1 -->
+            <div class="content-wrapper">
+                <div class="image-section">
+                    <img src="Img/tnb read/ReadImportExport.png" alt="Monthly Yield from SolisCloud">
+                </div>
+
+            <div id="ReadImportExport" class="text-section">
+                <h2>Step 1: Check your latest TNB bill for the Import and Export values</h2>
+                <p>
+                    
+                    <li>Refer to your <strong>last month and latest month's</strong> TNB electricity bill and locate the 
+                    <strong>Import</strong> and <strong>Export</strong> values. </li><hr> 
+                    <li>These are usually shown in the meter reading section of the bill.</li><hr>
+                </p>
+
+                <h3>Fill in the values to the input cells below:</h3>
+                <div class="input-group">
+                    <label for="ReadImport_ThisMonth">Import Value (This Month):</label>
+                    <input type="number" id="ReadImport_ThisMonth" placeholder="e.g., 1089.65" step="0.01">
+                </div>
+
+                <div class="input-group">
+                    <label for="ReadExport_ThisMonth">Export Value (This Month):</label>
+                    <input type="number" id="ReadExport_ThisMonth" placeholder="e.g., 1089.65" step="0.01">
+                </div>
+
+                <hr><hr>
+
+                <div class="input-group">
+                    <label for="ReadImport_LastMonth">Import Value (Last Month):</label>
+                    <input type="number" id="ReadImport_LastMonth" placeholder="e.g., 1089.65" step="0.01">
+                </div>
+
+                <div class="input-group">
+                    <label for="ReadExport_LastMonth">Export Value (Last Month):</label>
+                    <input type="number" id="ReadExport_LastMonth" placeholder="e.g., 1089.65" step="0.01">
+                </div>
+            </div>
+
+            </div>
+            <!-- Step 2 -->
+            <div class="content-wrapper">
+                <div class="image-section">
+                    <img src="Img/tnb read/ReadSolarGeneration.png" alt="Monthly Yield from SolisCloud">
+                </div>
+                <div id = "EnergyConsumptionCalculator" class="text-section">
+                    <h2>Step 2: Get your Solar Generation value from your inverter monitoring app</h2><br>
+                    <li>
+                        Open your <strong>solar inverter monitoring app</strong> (e.g., SolisCloud, Huawei, Growatt, etc.)
+                        and look for the <strong>Solar Generation Value</strong> for <strong>last month</strong> and <strong>this month</strong>.  
+                    </li><hr>
+                    <li>
+                        This is the total amount of solar energy generated for the selected period.
+                    </li><hr>
+                    <li>
+                        The image shows where this value is typically displayed in the app.
+                    </li><hr>
+
+                    <h3>Fill in the values to the input cells below:</h3>
+                    <div class="input-group">
+                        <label for="ReadGeneration_ThisMonth">Solar Generation Value /kWh (This Month):</label>
+                        <input type="number" id="ReadGeneration_ThisMonth" placeholder="e.g., 1957.10" step="0.01">
+                    </div>
+
+                    <div class="input-group">
+                        <label for="ReadExport_ThisMonth">Solar Generation Value /kWh (Last Month):</label>
+                        <input type="number" id="ReadGeneration_LastMonth" placeholder="e.g., 1957.10" step="0.01">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Step 4 + 5 -->
+            <div class="content-wrapper">
+                <div id = "CalculateConsumption" class="text-section">
+                    <h2>Step 3: Calculate the consumption</h2><br>
+                    <li>
+                          Once you have gathered the info values, click the button below.
+                    </li><hr>
+                    <li>
+                          The calculator will show a possible reason why your TNB bill may be higher.
+                    </li><hr>
+                    <button type="submit" class="btnCalculate" onclick="calculateEnergyConsumption()">Calculate Now</button>
+                    <div id="EnergyConsumptionError" class="error"></div>
+                    <div id="EnergyConsumptionOutput"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FULLSCREEN IMAGE POPUP -->
+    <div id="imagePopup" class="image-popup-overlay">
+        <button class="image-popup-close" onclick="closeImagePopup()">✕</button>
+        <img id="popupImage" src="" alt="Popup Image">
+    </div>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" id="backToTopBtn" title="Back to Top">
+        ↑
+    </button>
+
+    <script src="js/popup.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/performance.js"></script>
+    <script src="js/backToTop.js"></script>
+    <script>
+        const images = document.querySelectorAll('.image-section img');
+        const imagePopup = document.getElementById('imagePopup');
+        const popupImage = document.getElementById('popupImage');
+
+        images.forEach(img => {
+            img.addEventListener('click', () => {
+                popupImage.src = img.src;
+                imagePopup.classList.add('active');
+            });
+        });
+
+        function closeImagePopup() {
+            imagePopup.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
